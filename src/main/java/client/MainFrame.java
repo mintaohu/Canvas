@@ -57,7 +57,7 @@ public class MainFrame extends JFrame {
         rectangleButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("pressed triangle");
+                System.out.println("pressed rectangle");
                 canvas.toggleRect();
             }
         });

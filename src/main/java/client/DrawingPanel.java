@@ -74,7 +74,7 @@ public class DrawingPanel extends JPanel {
             end = e.getPoint();
             radius = Math.sqrt(Math.pow(Math.abs(start.x-end.x), 2) + Math.pow(Math.abs(start.y-end.y), 2));
             imgG2.setColor(currentColor);
-            imgG2.drawOval(start.x, start.y, (int) radius, (int) radius);
+            imgG2.drawOval(Math.min(start.x, end.x), Math.min(start.y, end.y), (int) radius, (int) radius);
             repaint();
         }
 
@@ -126,7 +126,7 @@ public class DrawingPanel extends JPanel {
             w = Math.abs(start.x-end.x);
             h = Math.abs(start.y-end.y);
             imgG2.setColor(currentColor);
-            imgG2.drawRect(start.x, start.y, (int) w, (int) h);
+            imgG2.drawRect(Math.min(start.x, end.x), Math.min(start.y, end.y), (int) w, (int) h);
             repaint();
 
         }
