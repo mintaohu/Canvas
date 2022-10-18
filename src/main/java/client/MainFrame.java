@@ -50,7 +50,15 @@ public class MainFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("pressed triangle");
-                canvas.triangTriangle();
+                canvas.toggleTriangle();
+            }
+        });
+
+        rectangleButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("pressed triangle");
+                canvas.toggleRect();
             }
         });
 
@@ -61,7 +69,6 @@ public class MainFrame extends JFrame {
                 canvas.toggleFreeHand();
             }
         });
-
 
         palette.addItemListener(new ItemListener() {
             @Override

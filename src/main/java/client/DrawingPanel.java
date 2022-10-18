@@ -108,6 +108,31 @@ public class DrawingPanel extends JPanel {
     };
 
 
+    private MouseAdapter rectangleDrawer = new MouseAdapter() {
+        Point start;
+        Point end;
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            start = e.getPoint();
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            double w;
+            double h;
+            end = e.getPoint();
+            w = Math.abs(start.x-end.x);
+            h = Math.abs(start.y-end.y);
+            imgG2.setColor(currentColor);
+            imgG2.drawRect(start.x, start.y, (int) w, (int) h);
+            repaint();
+
+        }
+    };
+
+
 
     public DrawingPanel() {
         super();
@@ -206,7 +231,7 @@ public class DrawingPanel extends JPanel {
         this.addMouseMotionListener(circleDrawer);
     }
 
-    public void triangTriangle() {
+    public void toggleTriangle() {
         for (MouseListener ml : this.getListeners(MouseListener.class)) {
             this.removeMouseListener(ml);
         }
@@ -217,6 +242,19 @@ public class DrawingPanel extends JPanel {
 
         this.addMouseListener(triangleDrawer);
         this.addMouseMotionListener(triangleDrawer);
+    }
+
+    public void toggleRect() {
+        for (MouseListener ml : this.getListeners(MouseListener.class)) {
+            this.removeMouseListener(ml);
+        }
+
+        for (MouseMotionListener mml : this.getListeners(MouseMotionListener.class)) {
+            this.removeMouseMotionListener(mml);
+        }
+
+        this.addMouseListener(rectangleDrawer);
+        this.addMouseMotionListener(rectangleDrawer);
     }
 
 
