@@ -1,6 +1,8 @@
 package client;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -21,6 +23,8 @@ public class MainFrame extends JFrame {
     private JComboBox palette;
     private JButton lineButton;
     private JButton circleButton;
+    private JTextField addTextField;
+    private JButton addTextButton;
 
 
     public MainFrame(String appName) {
@@ -80,7 +84,32 @@ public class MainFrame extends JFrame {
         });
 
 
+        addTextButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                canvas.setText(addTextField.getText());
+                System.out.println("pressed text");
+                canvas.toggleText();
+            }
+        });
 
+//        addTextField.getDocument().addDocumentListener(new DocumentListener() {
+//            @Override
+//            public void insertUpdate(DocumentEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void removeUpdate(DocumentEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void changedUpdate(DocumentEvent e) {
+//                System.out.println("frame");
+//                canvas.setText(e.toString());
+//            }
+//        });
     }
 
 
@@ -136,7 +165,7 @@ public class MainFrame extends JFrame {
         freehandButton.setText("Freehand");
         panel1.add(freehandButton, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel2.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(panel2, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         palette = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
@@ -158,6 +187,12 @@ public class MainFrame extends JFrame {
         defaultComboBoxModel1.addElement("gold");
         palette.setModel(defaultComboBoxModel1);
         panel2.add(palette, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addTextField = new JTextField();
+        addTextField.setText("Type text here");
+        panel2.add(addTextField, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        addTextButton = new JButton();
+        addTextButton.setText("AddText");
+        panel2.add(addTextButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

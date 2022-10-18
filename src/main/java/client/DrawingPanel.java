@@ -10,6 +10,7 @@ public class DrawingPanel extends JPanel {
     BufferedImage img = new BufferedImage(600, 560, BufferedImage.TYPE_INT_ARGB);
     Graphics2D imgG2 = img.createGraphics();
     private Color currentColor = Color.black;
+    private String text = "";
     private MouseAdapter freeHandDrawer = new MouseAdapter() {
         Point prev;
         Point next;
@@ -132,6 +133,20 @@ public class DrawingPanel extends JPanel {
         }
     };
 
+    private MouseAdapter textDrawer = new MouseAdapter() {
+        Point p;
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            p = e.getPoint();
+            imgG2.setColor(currentColor);
+            imgG2.drawString(text, p.x, p.y);
+            repaint();
+
+        }
+
+    };
+
 
 
     public DrawingPanel() {
@@ -188,6 +203,11 @@ public class DrawingPanel extends JPanel {
             currentColor = new Color(255, 215, 0);
         }
 
+    }
+
+    public void setText(String text){
+        System.out.println("canvas");
+        this.text = text;
     }
 
     public void toggleFreeHand() {
@@ -255,6 +275,19 @@ public class DrawingPanel extends JPanel {
 
         this.addMouseListener(rectangleDrawer);
         this.addMouseMotionListener(rectangleDrawer);
+    }
+
+
+    public void toggleText() {
+        for (MouseListener ml : this.getListeners(MouseListener.class)) {
+            this.removeMouseListener(ml);
+        }
+
+        for (MouseMotionListener mml : this.getListeners(MouseMotionListener.class)) {
+            this.removeMouseMotionListener(mml);
+        }
+
+        this.addMouseListener(textDrawer);
     }
 
 
