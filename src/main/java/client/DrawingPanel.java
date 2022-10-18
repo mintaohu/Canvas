@@ -156,12 +156,7 @@ public class DrawingPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Creating a copy of the Graphics
-        // so any reconfiguration we do on
-        // it doesn't interfere with what
-        // Swing is doing.
         Graphics2D g2 = (Graphics2D) g.create();
-        // Drawing the image.
         int w = img.getWidth();
         int h = img.getHeight();
 

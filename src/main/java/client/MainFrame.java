@@ -93,23 +93,6 @@ public class MainFrame extends JFrame {
             }
         });
 
-//        addTextField.getDocument().addDocumentListener(new DocumentListener() {
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                System.out.println("frame");
-//                canvas.setText(e.toString());
-//            }
-//        });
     }
 
 
