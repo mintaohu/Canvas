@@ -80,6 +80,33 @@ public class DrawingPanel extends JPanel {
 
     };
 
+    private MouseAdapter triangleDrawer = new MouseAdapter() {
+        Point one;
+        Point two;
+        Point three;
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (one == null) {
+                one = e.getPoint();
+            } else {
+                three = e.getPoint();
+                imgG2.setColor(currentColor);
+                imgG2.drawPolygon(new int[] {one.x, two.x, three.x}, new int[] {one.y, two.y, three.y}, 3);
+                repaint();
+                one = null;
+                two = null;
+                three = null;
+            }
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            two = e.getPoint();
+        }
+    };
+
 
 
     public DrawingPanel() {
@@ -177,6 +204,19 @@ public class DrawingPanel extends JPanel {
 
         this.addMouseListener(circleDrawer);
         this.addMouseMotionListener(circleDrawer);
+    }
+
+    public void triangTriangle() {
+        for (MouseListener ml : this.getListeners(MouseListener.class)) {
+            this.removeMouseListener(ml);
+        }
+
+        for (MouseMotionListener mml : this.getListeners(MouseMotionListener.class)) {
+            this.removeMouseMotionListener(mml);
+        }
+
+        this.addMouseListener(triangleDrawer);
+        this.addMouseMotionListener(triangleDrawer);
     }
 
 

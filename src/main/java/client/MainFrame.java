@@ -33,15 +33,24 @@ public class MainFrame extends JFrame {
         lineButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                System.out.println("pressed line");
+                canvas.toggleLine();
             }
         });
 
         circleButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("pressed line");
+                System.out.println("pressed circle");
                 canvas.toggleCircle();
+            }
+        });
+
+        triangleButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("pressed triangle");
+                canvas.triangTriangle();
             }
         });
 
@@ -64,13 +73,6 @@ public class MainFrame extends JFrame {
         });
 
 
-        lineButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("pressed line");
-                canvas.toggleLine();
-            }
-        });
 
     }
 
