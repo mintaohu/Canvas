@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import remote.ServerRemote;
 
 
 public class MainFrame extends JFrame {
@@ -25,6 +26,7 @@ public class MainFrame extends JFrame {
     private JButton circleButton;
     private JTextField addTextField;
     private JButton addTextButton;
+    private ServerRemote serverRemote;
 
 
     public MainFrame(String appName) {
@@ -96,13 +98,25 @@ public class MainFrame extends JFrame {
     }
 
 
-    public static void main(String[] args) {
+    public void startGUI() {
         JFrame frame = new MainFrame("Canvas");
         frame.setSize(650, 700);
         frame.setResizable(false);
         frame.setVisible(true);
 
 
+    }
+
+    public DrawingPanel getCanvas() {
+        return this.canvas;
+    }
+
+    public ServerRemote getServerRemote() {
+        return this.serverRemote;
+    }
+
+    public void setServerRemote(ServerRemote serverRemote) {
+        this.serverRemote = serverRemote;
     }
 
 
