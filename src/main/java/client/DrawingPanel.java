@@ -1,12 +1,18 @@
 package client;
 
+import remote.ServerRemote;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class DrawingPanel extends JPanel {
 
+    private ServerRemote board;
     BufferedImage img = new BufferedImage(600, 560, BufferedImage.TYPE_INT_ARGB);
     Graphics2D imgG2 = img.createGraphics();
     private Color currentColor = Color.black;
@@ -28,11 +34,13 @@ public class DrawingPanel extends JPanel {
                 repaint();
                 prev = next;
             }
+            refresh();
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
             prev = null;
+            refresh();
 
         }
     };
@@ -45,6 +53,7 @@ public class DrawingPanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             start = e.getPoint();
+            refresh();
 
         }
 
@@ -54,6 +63,7 @@ public class DrawingPanel extends JPanel {
             imgG2.setColor(currentColor);
             imgG2.drawLine(start.x, start.y, end.x, end.y);
             repaint();
+            refresh();
         }
 
     };
@@ -67,6 +77,7 @@ public class DrawingPanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             start = e.getPoint();
+            refresh();
 
         }
 
@@ -77,6 +88,7 @@ public class DrawingPanel extends JPanel {
             imgG2.setColor(currentColor);
             imgG2.drawOval(Math.min(start.x, end.x), Math.min(start.y, end.y), (int) radius, (int) radius);
             repaint();
+            refresh();
         }
 
     };
@@ -98,6 +110,7 @@ public class DrawingPanel extends JPanel {
                 one = null;
                 two = null;
                 three = null;
+                refresh();
             }
 
         }
@@ -105,6 +118,7 @@ public class DrawingPanel extends JPanel {
         @Override
         public void mouseReleased(MouseEvent e) {
             two = e.getPoint();
+            refresh();
         }
     };
 
@@ -116,6 +130,7 @@ public class DrawingPanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             start = e.getPoint();
+            refresh();
 
         }
 
@@ -129,6 +144,7 @@ public class DrawingPanel extends JPanel {
             imgG2.setColor(currentColor);
             imgG2.drawRect(Math.min(start.x, end.x), Math.min(start.y, end.y), (int) w, (int) h);
             repaint();
+            refresh();
 
         }
     };
@@ -142,6 +158,7 @@ public class DrawingPanel extends JPanel {
             imgG2.setColor(currentColor);
             imgG2.drawString(text, p.x, p.y);
             repaint();
+            refresh();
 
         }
 
@@ -285,5 +302,27 @@ public class DrawingPanel extends JPanel {
         this.addMouseListener(textDrawer);
     }
 
+    public void refresh(){
+        try{
+            BufferedImage image = this.img;
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            ImageIO.write(image,"jpg",output);
+            byte[] data = output.toByteArray();
+            this.board.broadcastImg(data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+    }
+
+    public ServerRemote getBoard() {
+        return board;
+    }
+
+    public void setBoard(ServerRemote board) {
+        this.board = board;
+    }
+    public void setImg(BufferedImage img){
+        this.img = img;
+    }
 }
