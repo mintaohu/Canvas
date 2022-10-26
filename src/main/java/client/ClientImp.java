@@ -15,15 +15,16 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 public class ClientImp extends UnicastRemoteObject implements ClientRemote, Serializable {
 
     private static final long serialVersionUID = 1L;
     private String username;
-    private MainFrame clientGUI;
+    private MainFrame clientGUI = new MainFrame("Canvas");
     private ServerRemote serverRemote;
-    private String service="canvas";
-    private String clientService="";
+    private String service="server";
+    private String clientService="canvas";
     private byte[] data;
 
 
@@ -50,10 +51,10 @@ public class ClientImp extends UnicastRemoteObject implements ClientRemote, Seri
 
     @Override
     public boolean qualify(String username) throws RemoteException {
-        String[] userList = this.serverRemote.displayUsers();
+        ArrayList<String> userList = this.serverRemote.displayUsers();
 
-        for(int i = 0; i < userList.length; i++){
-            if (username==userList[i]){
+        for(int i = 0; i < userList.size(); i++){
+            if (username==userList.get(i)){
                 return false;
             }
         }
@@ -61,14 +62,25 @@ public class ClientImp extends UnicastRemoteObject implements ClientRemote, Seri
     }
 
 
-    public void register(){
+    public void register(String username){
         try {
             System.out.println("REGISTER CLIENT");
-            Naming.rebind("rmi://localhost/"+ clientService, this);
-            this.serverRemote = (ServerRemote) Naming.lookup("rmi://localhost/" + service);
-
+            Naming.rebind("rmi://localhost:1099/"+ clientService, this);
+            this.serverRemote = (ServerRemote) Naming.lookup("rmi://localhost:1099/" + service);
+            //System.out.println(this.serverRemote.displayUsers());
             this.clientGUI.startGUI();
-            this.clientGUI.setServerRemote(this.serverRemote);
+            boolean success = this.serverRemote.addUser(clientService,username);
+            if(success){
+                this.clientGUI.setServerRemote(this.serverRemote);
+                System.out.println(this.clientGUI.getServerRemote());
+                this.clientGUI.getCanvas().setBoard(this.serverRemote);
+                System.out.println(this.clientGUI.getCanvas().getBoard());
+                System.out.println("REGISTER CLIENT SUCCESS");
+            }else{
+                System.out.println("Username already exists, please restart!");
+                System.exit(0);
+            }
+
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (RemoteException e){
@@ -78,9 +90,6 @@ public class ClientImp extends UnicastRemoteObject implements ClientRemote, Seri
         }
     }
 
-    public void start(){
-
-    }
 
 
 
