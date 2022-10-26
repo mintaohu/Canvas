@@ -116,7 +116,12 @@ public class MainFrame extends JFrame {
     }
 
     public void setServerRemote(ServerRemote serverRemote) {
+        System.out.println("START SETTING CANVAS BOARD");
         this.serverRemote = serverRemote;
+        System.out.println(this.serverRemote);
+        //this.getCanvas().setBoard(serverRemote);
+        //System.out.println(this.getCanvas().getBoard());
+        //System.out.println("CANVAS BOARD SET");
     }
 
 
