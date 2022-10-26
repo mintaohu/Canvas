@@ -9,6 +9,10 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 public class DrawingPanel extends JPanel {
 
@@ -167,7 +171,18 @@ public class DrawingPanel extends JPanel {
 
 
     public DrawingPanel() {
+
         super();
+        try{
+            this.board = (ServerRemote) Naming.lookup("rmi://localhost/server");
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
@@ -304,10 +319,18 @@ public class DrawingPanel extends JPanel {
 
     public void refresh(){
         try{
+            System.out.println("SAVE USER'S CANVAS");
             BufferedImage image = this.img;
+            System.out.println(this.img);
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             ImageIO.write(image,"jpg",output);
             byte[] data = output.toByteArray();
+            //System.out.println(data.length);
+            System.out.println(this.board);
+            //System.out.println(getBoard());
+            System.out.println("TEST");
+            //String[] test = this.board.displayUsers();
+            System.out.println(this.board.displayUsers().size());
             this.board.broadcastImg(data);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -316,11 +339,12 @@ public class DrawingPanel extends JPanel {
     }
 
     public ServerRemote getBoard() {
-        return board;
+        return this.board;
     }
 
     public void setBoard(ServerRemote board) {
         this.board = board;
+        System.out.println("THIS.BOARD:"+this.board);
     }
     public void setImg(BufferedImage img){
         this.img = img;
