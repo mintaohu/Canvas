@@ -19,11 +19,10 @@ public class Client {
 
         ClientImp newWhiteBoard;
         try{
-            newWhiteBoard = new ClientImp(args[0]);
-            newWhiteBoard.register();
-            //if(!newWhiteBoard.qualify(args[0])){
+            String username = args[0];
+            newWhiteBoard = new ClientImp(username);
+            newWhiteBoard.register(username);
 
-            //}
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);
